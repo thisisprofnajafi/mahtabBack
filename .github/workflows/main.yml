@@ -34,4 +34,4 @@ jobs:
           server: 2817226215.cloudylink.com
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          server-dir: /public_html/mahtab.avindev.com/
+          server-dir: /public_html/mahtab/
