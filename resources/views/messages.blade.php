@@ -289,7 +289,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
-                    alert(data.message); // Show a success message
+                    console.log(data.message); // Show a success message
                     // Optionally update the UI to reflect the deleted message, e.g., remove the message element
                     // document.getElementById(`message-${messageId}`).remove();
                     refreshPage(); // Optionally refresh the page after deletion
@@ -311,7 +311,7 @@
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.message); // Show a message to the user (you can replace this with any UI update logic)
+                console.log(data.message); // Show a message to the user (you can replace this with any UI update logic)
                 // Optionally update the UI to reflect the deleted message, e.g., remove the message element
                 // document.getElementById(`message-${messageId}`).remove();
             })

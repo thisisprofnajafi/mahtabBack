@@ -12,7 +12,7 @@ class MessageController extends Controller
 {
     public function sendMessage($message, $id)
     {
-        $channel = Channel::query()->where("chat_id", $id)->first();
+        $channel = Channel::query()->where("id", $id)->first();
         if ($channel) {
             $message = $channel->messages->where("message_id", $message)->first();
             if ($message) {
