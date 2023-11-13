@@ -20,8 +20,12 @@ class HookController extends Controller
             if (isset($update['channel_post'])) {
                 $channel_post = $update['channel_post'];
 
-                // Check if the message ID has been processed before
-                $messageId = $channel_post['message_id'];
+                if (isset($channel_post['message_id'])){
+                    $messageId = $channel_post['message_id'];
+                }else{
+                    $messageId = $channel_post[0]['message_id'];
+                }
+
                 if (MessageLog::where('message_id', $messageId)->exists()) {
                     // Skip processing the message
                     return;
