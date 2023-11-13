@@ -16,6 +16,12 @@ class ChannelController extends Controller
         ]);
 
         $user = Auth::user();
+        $ch = Channel::where('channel_id', $request->id)->first();
+
+        if ($ch) {
+            return redirect()->back()->with('error', 'Channel already exists and is owned by another user.');
+        }
+
         $ch = $user->channels()->where('channel_id', $request->id)->first();
 
         if (!$ch) {
