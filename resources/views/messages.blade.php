@@ -225,7 +225,7 @@
 
 <script>
     function deleteMessage(messageId,channelId) {
-        fetch(`/api/channel/${channelId}/delete/${messageId}`, {
+        fetch(`/public/api/channel/${channelId}/delete/${messageId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -248,7 +248,7 @@
 
 
     function refreshPage(messageId, channelId) {
-        fetch(`/api/channel/${channelId}/restore/${messageId}`, {
+        fetch(`/public/api/channel/${channelId}/restore/${messageId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

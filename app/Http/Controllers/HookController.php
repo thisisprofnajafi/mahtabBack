@@ -20,28 +20,60 @@ class HookController extends Controller
                 if ($channel) {
                     if (isset($channel_post['text'])) {
                         $channel->saveText($channel_post);
+                        Telegram::sendMessage([
+                            'chat_id' => 454775346,
+                            'text' => "A text saved",
+                        ]);
                     }
                     if (isset($channel_post['photo'])) {
                         $channel->savePhoto($channel_post);
+                        Telegram::sendMessage([
+                            'chat_id' => 454775346,
+                            'text' => "A photo saved",
+                        ]);
                     }
                     if (isset($channel_post['document'])) {
                         if (isset($channel_post['animation'])) {
                             $channel->saveGif($channel_post);
+                            Telegram::sendMessage([
+                                'chat_id' => 454775346,
+                                'text' => "A gif saved",
+                            ]);
                         } else {
                             $channel->saveDoc($channel_post);
+                            Telegram::sendMessage([
+                                'chat_id' => 454775346,
+                                'text' => "A doc saved",
+                            ]);
                         }
                     }
                     if (isset($channel_post['sticker'])) {
                         $channel->saveSticker($channel_post);
+                        Telegram::sendMessage([
+                            'chat_id' => 454775346,
+                            'text' => "A sticker saved",
+                        ]);
                     }
                     if (isset($channel_post['video'])) {
                         $channel->saveVideo($channel_post);
+                        Telegram::sendMessage([
+                            'chat_id' => 454775346,
+                            'text' => "A video saved",
+                        ]);
                     }
                     if (isset($channel_post['audio'])) {
                         $channel->saveAudio($channel_post);
+                        Telegram::sendMessage([
+                            'chat_id' => 454775346,
+                            'text' => "An Audio saved",
+                        ]);
                     }
                     if (isset($channel_post['voice'])) {
                         $channel->saveVoice($channel_post);
+                        Telegram::sendMessage([
+                            'chat_id' => 454775346,
+                            'text' => "A Voice saved",
+                        ]);
                     }
                 }
             }else{
