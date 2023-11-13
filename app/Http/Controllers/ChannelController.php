@@ -42,7 +42,7 @@ class ChannelController extends Controller
                     $profilePhotoUrl = 'https://api.telegram.org/file/bot' . env('TELEGRAM_BOT_TOKEN') . '/' . $profilePhotoFile->getFilePath();
                     $localFilePath = public_path('media/channels/' . $request->id . '.jpg');
                     file_put_contents($localFilePath, file_get_contents($profilePhotoUrl));
-                    $ch->profile_path = $localFilePath;
+                    $ch->profile_path = 'media/channels/' . $request->id . '.jpg';
                 }
 
                 $user->channels()->save($ch);
