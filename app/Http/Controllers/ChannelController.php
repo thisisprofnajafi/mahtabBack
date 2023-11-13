@@ -171,7 +171,7 @@ class ChannelController extends Controller
             Telegram::sendMessage($params);
         }
 
-        return redirect()->route('your_redirect_route');
+        return redirect()->back();
     }
 
     private function uploadAttachment($file)
