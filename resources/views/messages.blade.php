@@ -31,24 +31,24 @@
     />
 
     <!-- Icons -->
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/fonts/fontawesome.css')}}"/>
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/fonts/tabler-icons.css')}}"/>
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/fonts/flag-icons.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/fontawesome.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/tabler-icons.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/flag-icons.css')}}"/>
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/css/rtl/core.css')}}"/>
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/css/rtl/theme-default.css')}}"/>
-    <link rel="stylesheet" href="{{asset('../../assets/css/demo.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/rtl/core.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/rtl/theme-default.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}"/>
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}"/>
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/libs/node-waves/node-waves.css')}}"/>
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/libs/typeahead-js/typeahead.css')}}"/>
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/typeahead-js/typeahead.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.css')}}"/>
 
     <!-- Page CSS -->
 
-    <link rel="stylesheet" href="{{asset('../../assets/vendor/css/pages/app-chat.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/app-chat.css')}}"/>
     <!-- Helpers -->
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
 
