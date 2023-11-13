@@ -78,7 +78,7 @@ class ChannelController extends Controller
             abort(404, 'Channel not found');
         }
 
-        $messages = $channel->messages()->orderBy('created_at', 'desc')->get();
+        $messages = $channel->messages()->orderBy('created_at', 'asc')->get();
 
         return view('messages', compact('channel', 'messages'));
     }

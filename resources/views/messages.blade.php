@@ -109,10 +109,10 @@
                                                             @endif
                                                         </div>
                                                         <div class="d-flex justify-content-between mt-2">
-                                                            <div class="text-muted mt-1">
-                                                                <small>{{$message->created_at->diffForHumans(null, true)}}</small>
+                                                            <div class="text-muted mt-1 mx-1">
+                                                                <small>{{$message->created_at->diffForHumans(null, true)}} ago</small>
                                                             </div>
-                                                            <div class="forms d-flex g-3 my-1">
+                                                            <div class="forms d-flex g-3 mx-2">
                                                                 <i class="ti ti-trash"
                                                                    onclick="deleteMessage({{$message->id}} , {{$channel->id}})"></i>
                                                                 <i class="ti ti-refresh"
