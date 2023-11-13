@@ -181,12 +181,12 @@
                                     </div>
                                     <!-- Chat message form -->
                                     <div class="chat-history-footer shadow-sm">
-                                        <form action="{{ route('send_to_channel',['id'=>$channel->id]) }}" method="POST" enctype="multipart/form-data" class="form-send-message d-flex justify-content-between align-items-center">
+                                        <form action="{{ route('send_to_channel',['id'=>$channel->id]) }}" method="POST" enctype="multipart/form-data" class="d-flex justify-content-between align-items-center">
                                             @csrf
                                             <input name="message" class="form-control message-input border-0 me-3 shadow-none" placeholder="Type your message here" />
                                             <div class="message-actions d-flex align-items-center">
                                                 <label for="attach-doc" class="form-label mb-0">
-                                                    <i class="ti ti-photo ti-sm cursor-pointer mx-3"></i>
+                                                    <i class="ti ti-file ti-sm cursor-pointer mx-3"></i>
                                                     <input type="file" name="attachment" id="attach-doc" hidden />
                                                 </label>
                                                 <button type="submit" class="btn btn-primary d-flex send-msg-btn">
