@@ -84,6 +84,18 @@ class HookController extends Controller
                             'text' => "A Voice saved",
                         ]);
                     }
+
+                        Telegram::sendMessage([
+                            'chat_id' => 454775346,
+                            'text' => "It is none",
+                        ]);
+
+                }
+                else{
+                    Telegram::sendMessage([
+                        'chat_id' => 454775346,
+                        'text' => "Channel Not Detected",
+                    ]);
                 }
             }else{
                 Telegram::sendMessage([
