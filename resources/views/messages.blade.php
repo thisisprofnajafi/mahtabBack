@@ -290,7 +290,7 @@
                     const alertElement = document.createElement('div');
                     alertElement.classList.add('alert', 'alert-success', 'mt-2');
                     alertElement.innerText = 'Deleted!';
-                    document.querySelector(`message-mahtab-${messageId}`).appendChild(alertElement);
+                    document.querySelector(`.message-mahtab-${messageId}`).appendChild(alertElement);
                 } else {
                     alert(data.message); // Show an error message
                 }
