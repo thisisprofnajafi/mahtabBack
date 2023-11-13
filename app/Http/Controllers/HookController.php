@@ -58,7 +58,7 @@ class HookController extends Controller
             }
         } catch (Exception $e) {
             \Log::error('Error processing Telegram message: ' . $e->getMessage());
-            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "An error occurred"]);
+            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "An error occurred " . $e->getMessage()]);
         }
     }
 }
