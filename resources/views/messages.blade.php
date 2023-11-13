@@ -133,7 +133,7 @@
                                                                             Your browser does not support the video tag.
                                                                         </video>
                                                                     @elseif($message->type == "sticker")
-                                                                        @if(pathinfo($message->path, PATHINFO_EXTENSION) == 'mp4')
+                                                                        @if(pathinfo($message->path, PATHINFO_EXTENSION) == 'mp4' || pathinfo($message->path, PATHINFO_EXTENSION) == 'webm')
                                                                             <video controls style="max-width: 100%">
                                                                                 <source
                                                                                     src="{{ asset($message->path) }}"
