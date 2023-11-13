@@ -111,7 +111,7 @@
                                                                 @if($message->caption)
                                                                     <span>{{ $message->caption }}</span>
                                                                 @endif
-                                                            @elseif($message->type == "doc" || $message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice")
+                                                            @elseif($message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice")
                                                                 @if($message->type == "video")
                                                                     <video controls style="max-width: 100%">
                                                                         <source src="{{ asset($message->path) }}" type="video/mp4">
@@ -123,7 +123,13 @@
                                                                         Your browser does not support the audio tag.
                                                                     </audio>
                                                                 @elseif($message->type == "gif")
-                                                                    <img src="{{ asset($message->path) }}" alt="GIF" style="max-width: 100%">
+                                                                        <video controls style="max-width: 100%">
+                                                                            <source src="{{ asset($message->path) }}" type="video/mp4">
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                @elseif($message->type == "document")
+                                                                    <a href="{{asset($message->path)}}" download>Download Document</a>
+
                                                                 @else
                                                                     <a href="{{ asset($message->path) }}" target="_blank" rel="noopener noreferrer">
                                                                         {{ ucfirst($message->type) }}

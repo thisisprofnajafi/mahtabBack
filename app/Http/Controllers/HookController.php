@@ -43,14 +43,10 @@ class HookController extends Controller
                         foreach ($mediaTypes as $type) {
                             if (isset($channel_post[$type])) {
                                 $methodName = 'save' . ucfirst($type);
-                                if (!$type == 'document') {
-                                    $channel->$methodName($channel_post);
+                                if (isset($channel_post['animation'])) {
+                                    $channel->saveGif($channel_post);
                                 }else{
-                                    if (isset($channel_post['animation'])) {
-                                        $channel->saveGif($channel_post);
-                                    } else {
-                                        $channel->saveDocument($channel_post);
-                                    }
+                                    $channel->$methodName($channel_post);
                                 }
                                 Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A " . $type . " saved"]);
                             }

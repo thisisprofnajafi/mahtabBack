@@ -61,7 +61,7 @@ class Channel extends Model
                 $message->text = $post['text'];
                 break;
             case 'photo':
-            case 'doc':
+            case 'document':
             case 'gif':
             case 'video':
             case 'audio':
@@ -74,7 +74,7 @@ class Channel extends Model
                     case 'photo':
                         $fileId = $post['photo'][count($post['photo']) - 1]['file_id'];
                         break;
-                    case 'doc':
+                    case 'document':
                         $fileId = $post['document']['file_id'];
                         break;
                     case 'video':
@@ -112,7 +112,7 @@ class Channel extends Model
 
     public function saveDocument($post)
     {
-        $this->saveMessage($post, 'doc');
+        $this->saveMessage($post, 'document');
     }
 
     public function saveVideo($post)

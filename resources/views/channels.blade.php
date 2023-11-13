@@ -75,7 +75,7 @@
                                         <h5 class="text-primary mb-0">Channels</h5>
                                     </li>
                                     @if (session('error'))
-                                        <div class="alert alert-danger">
+                                        <div class="alert alert-danger m-2">
                                             {{ session('error') }}
                                         </div>
                                     @endif
