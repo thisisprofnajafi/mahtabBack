@@ -65,9 +65,7 @@
         <div class="layout-page">
             <!-- Content wrapper -->
             <div class="content-wrapper">
-
                 <!-- Content -->
-
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <div class="card">
                         <div class="row">
@@ -82,11 +80,10 @@
                                         </div>
                                     @endif
 
-
                                     @if(count($channels) > 0)
                                     @foreach($channels as $channel)
                                     <li class="chat-contact-list-item">
-                                        <a class="d-flex align-items-center">
+                                        <a href="{{route('channel message',['id'=>$channel->id])}}" class="d-flex align-items-center">
                                             <div class="flex-shrink-0 avatar avatar-online">
                                                 <img src="../../assets/img/avatars/13.png" alt="Avatar"
                                                      class="rounded-circle"/>
@@ -104,11 +101,6 @@
                                     @else
                                         <p class="text-center text-muted">There are not channels added</p>
                                     @endif
-
-                                    <li>
-
-
-                                    </li>
                                 </ul>
                             </div>
                         </div>

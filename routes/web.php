@@ -23,8 +23,9 @@ Route::group(['prefix' => 'app'], function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/channels', [ChannelController::class, 'getMy'])->name('index');
         Route::post('/addChannel', [ChannelController::class, 'add'])->name('add channel');
-        Route::get('/channel/{id}/messages', [ChannelController::class, 'getMessages']);
-        Route::post('/channel/{id}/delete/{message}', [ChannelController::class, 'delete']);
+        Route::get('/channel/{id}/messages', [ChannelController::class, 'getMessages'])->name('channel page');
+        Route::delete('/channel/{id}/delete/{message}', [ChannelController::class, 'delete']);
+        Route::post('/channel/{id}/restore/{message}', [MessageController::class, 'sendMessage'])->name('restore message');
         Route::post('/channel/{id}/send', [MessageController::class, 'send']);
         Route::post('/message/{message}/channel/{id}', [MessageController::class, 'sendMessage']);
     });

@@ -63,54 +63,63 @@ class ChannelController extends Controller
 
     public function getMessages($id, Request $request)
     {
-
         $user = Auth::user();
         $channel = $user->channels()->where('id', $id)->first();
-        $count = $channel->messages->count();
 
+        if (!$channel) {
+            // Handle the case where the channel is not found, e.g., redirect or show an error message.
+            // You can customize this based on your application's needs.
+            abort(404, 'Channel not found');
+        }
 
         $messages = $channel->messages()->orderBy('created_at', 'desc')->get();
 
-        return response()->json([
-
-            'messages' => $messages,
-            "count" => $count
-
-        ]);
+        return view('messages', compact('channel', 'messages'));
     }
 
-    public function delete($id, $message)
+    public function delete($id, $messageId)
     {
-        $channel = Auth::user()->channels->where("id", $id)->first();
-        if ($channel) {
-            $message = $channel->messages->where("message_id", $message)->first();
-            if ($message) {
-                try {
-                    Telegram::deleteMessage([
-                        'chat_id' => $channel->chat_id,
-                        'message_id' => $message->message_id,
-                    ]);
-                    return response()->json([
-                        "status" => true,
-                        "message" => "Deleted"
-                    ]);
-                }catch (\Exception $e){
-                    return response()->json([
-                        "status" => false,
-                        "message" => $e->getMessage()
-                    ]);
-                }
+        $user = Auth::user();
+        $channel = $user->channels->where("id", $id)->first();
 
-            } else {
-                return response()->json([
-                    "status" => false,
-                    "message" => "Message Not Found"
-                ]);
-            }
+        if (!$channel) {
+            return response()->json([
+                "status" => false,
+                "message" => "Channel not found"
+            ]);
         }
-        return response()->json([
-            "status" => false,
-            "message" => "Channel Not Found"
-        ]);
+
+        $message = $channel->messages->where("message_id", $messageId)->first();
+
+        if (!$message) {
+            return response()->json([
+                "status" => false,
+                "message" => "Message not found"
+            ]);
+        }
+
+        try {
+            Telegram::deleteMessage([
+                'chat_id' => $channel->chat_id,
+                'message_id' => $message->message_id,
+            ]);
+
+            // Assuming you also want to delete the message from the database
+            $message->delete();
+
+            return response()->json([
+                "status" => true,
+                "message" => "Deleted"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => false,
+                "message" => "Error deleting message: " . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function restore($id, $message){
+
     }
 }
