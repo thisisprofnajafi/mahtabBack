@@ -71,7 +71,7 @@ class Channel extends Model
     public function saveDoc($post)
     {
         $message = new Message();
-        $message->message_id = $post->message_id;
+        $message->message_id = $post['message_id'];
         $message->type = "doc";
 
         $message->path = $this->downloadGetFile($post->document->file_id);
@@ -86,7 +86,7 @@ class Channel extends Model
     {
         $message = new Message();
         $message->type = "video";
-        $message->message_id = $post->message_id;
+        $message->message_id = $post['message_id'];
         $message->path = $this->downloadGetFile($post->video->file_id);
         if ($post->caption)
             $message->caption = $post->caption;
@@ -99,7 +99,7 @@ class Channel extends Model
     {
         $message = new Message();
         $message->type = "audio";
-        $message->message_id = $post->message_id;
+        $message->message_id = $post['message_id'];
         $message->path = $this->downloadGetFile($post->audio->file_id);
         if ($post->caption)
             $message->caption = $post->caption;
@@ -111,7 +111,7 @@ class Channel extends Model
     {
         $message = new Message();
         $message->type = "voice";
-        $message->message_id = $post->message_id;
+        $message->message_id = $post['message_id'];
         $message->path = $this->downloadGetFile($post->voice->file_id);
         if ($post->caption)
             $message->caption = $post->caption;
@@ -122,7 +122,7 @@ class Channel extends Model
     public function saveGif($post){
         $message = new Message();
         $message->type = "gif";
-        $message->message_id = $post->message_id;
+        $message->message_id = $post['message_id'];
         $message->path = $this->downloadGetFile($post->document->file_id);
         if ($post->caption)
             $message->caption = $post->caption;
@@ -131,7 +131,7 @@ class Channel extends Model
     public function saveSticker($post){
         $message = new Message();
         $message->type = "sticker";
-        $message->message_id = $post->message_id;
+        $message->message_id = $post['message_id'];
         if($post->is_video)
             $message->path = $this->downloadGetFile($post->sticker->file_id);
         else
