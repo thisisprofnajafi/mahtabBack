@@ -85,7 +85,7 @@ class MessageController extends Controller
                 $params['photo'] = InputFile::create($message->path);
                 return Telegram::sendPhoto($params);
 
-            case "doc":
+            case "document":
                 $params['document'] = InputFile::create($message->path);
                 return Telegram::sendDocument($params);
             case "gif":
