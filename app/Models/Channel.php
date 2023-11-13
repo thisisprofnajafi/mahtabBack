@@ -45,100 +45,99 @@ class Channel extends Model
         }
     }
 
-    public function saveText($post)
+    public function saveMessage($post, $type)
     {
         $message = new Message();
         $message->message_id = $post['message_id'];
-        $message->type = "text";
-        $message->text = $post['text'];
-        $this->messages()->save($message);
+        $message->type = $type;
 
+        if (isset($post['caption'])) {
+            $message->caption = $post['caption'];
+        }
+
+        // Handle different types of media
+        switch ($type) {
+            case 'text':
+                $message->text = $post['text'];
+                break;
+            case 'photo':
+            case 'doc':
+            case 'gif':
+            case 'video':
+            case 'audio':
+            case 'voice':
+            case 'sticker':
+                $fileId = '';
+
+                // Determine the file ID based on the media type
+                switch ($type) {
+                    case 'photo':
+                        $fileId = $post['photo'][count($post['photo']) - 1]['file_id'];
+                        break;
+                    case 'doc':
+                        $fileId = $post['document']['file_id'];
+                        break;
+                    case 'video':
+                        $fileId = $post['video']['file_id'];
+                        break;
+                    case 'audio':
+                        $fileId = $post['audio']['file_id'];
+                        break;
+                    case 'voice':
+                        $fileId = $post['voice']['file_id'];
+                        break;
+                    case 'gif':
+                    case 'sticker':
+                        $fileId = $post['document']['file_id'];
+                        break;
+                }
+
+                // Download and save the file
+                $message->path = $this->downloadGetFile($fileId);
+                break;
+        }
+
+        $this->messages()->save($message);
+    }
+
+    public function saveText($post)
+    {
+        $this->saveMessage($post, 'text');
     }
 
     public function savePhoto($post)
     {
-        $message = new Message();
-        $message->message_id = $post['message_id'];
-        $message->type = "photo";
-
-        $message->path = $this->downloadGetFile($post->photo[count(json_decode($post['photo']))-1]['file_id']);
-        if ($post['caption'])
-            $message->caption = $post['caption'];
-
-        $this->messages()->save($message);
+        $this->saveMessage($post, 'photo');
     }
 
-    public function saveDoc($post)
+    public function saveDocument($post)
     {
-        $message = new Message();
-        $message->message_id = $post['message_id'];
-        $message->type = "doc";
-
-        $message->path = $this->downloadGetFile($post->document->file_id);
-        if ($post['caption'])
-            $message->caption = $post['caption'];
-
-        $this->messages()->save($message);
-
+        $this->saveMessage($post, 'doc');
     }
 
     public function saveVideo($post)
     {
-        $message = new Message();
-        $message->type = "video";
-        $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post['video']['file_id']);
-        if ($post['caption'])
-            $message->caption = $post['caption'];
-
-        $this->messages()->save($message);
-
+        $this->saveMessage($post, 'video');
     }
 
     public function saveAudio($post)
     {
-        $message = new Message();
-        $message->type = "audio";
-        $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post['audio']['file_id']);
-        if ($post['caption'])
-            $message->caption = $post['caption'];
-        $this->messages()->save($message);
-
+        $this->saveMessage($post, 'audio');
     }
 
     public function saveVoice($post)
     {
-        $message = new Message();
-        $message->type = "voice";
-        $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post['voice']['file_id']);
-        if ($post['caption'])
-            $message->caption = $post['caption'];
-        $this->messages()->save($message);
-
+        $this->saveMessage($post, 'voice');
     }
 
-    public function saveGif($post){
-        $message = new Message();
-        $message->type = "gif";
-        $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post['document']['file_id']);
-        if ($post['caption'])
-            $message->caption = $post['caption'];
-        $this->messages()->save($message);
+    public function saveGif($post)
+    {
+        $this->saveMessage($post, 'gif');
     }
-    public function saveSticker($post){
-        $message = new Message();
-        $message->type = "sticker";
-        $message->message_id = $post['message_id'];
-        if($post['is_video'])
-            $message->path = $this->downloadGetFile($post['sticker']['file_id']);
-        else
-            $message->path = $this->downloadGetFile($post['sticker']['file_id']);
-        if ($post['caption'])
-            $message->caption = $post['caption'];
-        $this->messages()->save($message);
+
+    public function saveSticker($post)
+    {
+        $this->saveMessage($post, 'sticker');
     }
 
     private function downloadGetFile($param): string
