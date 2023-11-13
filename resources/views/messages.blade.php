@@ -170,7 +170,7 @@
                                                                     <i class="ti ti-trash"
                                                                        onclick="deleteMessage({{$message->id}} , {{$channel->id}})"></i>
                                                                     <i class="ti ti-refresh"
-                                                                       onclick="refreshPage({{$message->id}} , {{$channel->id}})"></i>
+                                                                       onclick="restoreMessage({{$message->id}} , {{$channel->id}})"></i>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -279,7 +279,7 @@
 
 <script>
     function deleteMessage(messageId, channelId) {
-        fetch(`/public/app/channel/${channelId}/delete/${messageId}`, {
+        fetch(`/mahtab/public/app/channel/${channelId}/delete/${messageId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -301,8 +301,8 @@
     }
 
 
-    function refreshPage(messageId, channelId) {
-        fetch(`/public/app/channel/${channelId}/restore/${messageId}`, {
+    function restoreMessage(messageId, channelId) {
+        fetch(`/mahtab/public/app/channel/${channelId}/restore/${messageId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
