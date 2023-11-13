@@ -110,7 +110,7 @@
                                                         </div>
                                                         <div class="d-flex justify-content-between mt-2">
                                                             <div class="text-muted mt-1">
-                                                                <small>{{$comment->created_at->diffForHumans(null, true)}}</small>
+                                                                <small>{{$message->created_at->diffForHumans(null, true)}}</small>
                                                             </div>
                                                             <div class="forms d-flex g-3 my-1">
                                                                 <i class="ti ti-trash"
