@@ -10,6 +10,11 @@ class HookController extends Controller
 {
    public function getMessage(Request $request)
 {
+
+    Telegram::sendMessage([
+        'chat_id' => 454775346,
+        'text' => "new hook call",
+    ]);
     try {
         $update = json_decode($request->getContent(), true);
         if (isset($update['channel_post'])) {
@@ -82,6 +87,11 @@ class HookController extends Controller
                     'text' => "did not detect",
                 ]);
             }
+        }else{
+            Telegram::sendMessage([
+                'chat_id' => 454775346,
+                'text' => "channel post is not defined",
+            ]);
         }
     } catch (Exception $e) {
         $errorMessage = $e->getMessage();
