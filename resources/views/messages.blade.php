@@ -107,14 +107,28 @@
                                                             @if($message->type == "text")
                                                                 <span>{{ $message->text }}</span>
                                                             @elseif($message->type == "photo")
-                                                                <img src="{{ asset($message->path) }}" alt="Photo">
+                                                                <img src="{{ asset($message->path) }}" alt="Photo" style="max-width: 100%">
                                                                 @if($message->caption)
                                                                     <span>{{ $message->caption }}</span>
                                                                 @endif
                                                             @elseif($message->type == "doc" || $message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice")
-                                                                <a href="{{ asset($message->path) }}" target="_blank" rel="noopener noreferrer">
-                                                                    {{ ucfirst($message->type) }}
-                                                                </a>
+                                                                @if($message->type == "video")
+                                                                    <video controls style="max-width: 100%">
+                                                                        <source src="{{ asset($message->path) }}" type="video/mp4">
+                                                                        Your browser does not support the video tag.
+                                                                    </video>
+                                                                @elseif($message->type == "audio" || $message->type == "voice")
+                                                                    <audio controls style="max-width: 100%">
+                                                                        <source src="{{ asset($message->path) }}" type="audio/mpeg">
+                                                                        Your browser does not support the audio tag.
+                                                                    </audio>
+                                                                @elseif($message->type == "gif")
+                                                                    <img src="{{ asset($message->path) }}" alt="GIF" style="max-width: 100%">
+                                                                @else
+                                                                    <a href="{{ asset($message->path) }}" target="_blank" rel="noopener noreferrer">
+                                                                        {{ ucfirst($message->type) }}
+                                                                    </a>
+                                                                @endif
                                                                 @if($message->caption)
                                                                     <span>{{ $message->caption }}</span>
                                                                 @endif
