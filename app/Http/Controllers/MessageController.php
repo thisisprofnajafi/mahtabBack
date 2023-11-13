@@ -105,8 +105,14 @@ class MessageController extends Controller
                 return Telegram::sendVoice($params);
 
             case "sticker":
-                $params['document'] = $this->stickerCleaner($message->path);
-                return Telegram::sendDocument($params);
+                if (pathinfo($message->path, PATHINFO_EXTENSION) === 'webm') {
+                    $params['document'] = $this->stickerCleaner($message->path);
+                    return Telegram::sendDocument($params);
+                } else {
+                    $params['sticker'] = InputFile::create($message->path);
+                    return Telegram::sendSticker($params);
+                }
+
 
             default:
                 return null;
