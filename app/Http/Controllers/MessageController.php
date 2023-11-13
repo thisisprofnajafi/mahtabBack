@@ -106,7 +106,7 @@ class MessageController extends Controller
 
             case "sticker":
                 $params['document'] = InputFile::create($this->stickerCleaner($message->path));
-                return Telegram::sendSticker($params);
+                return Telegram::sendDocument($params);
 
             default:
                 return null;
