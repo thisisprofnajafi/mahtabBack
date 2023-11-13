@@ -126,7 +126,7 @@ class ChannelController extends Controller
         }
     }
 
-    public function sendMessage(Request $request, $id)
+    public function sendMessage($id,Request $request)
     {
         $channelId = $id;
         $channel = Channel::find($channelId);
@@ -134,7 +134,7 @@ class ChannelController extends Controller
         $text = $request->input('message');
 
         $params = [
-            'chat_id' => $channelId,
+            'chat_id' => "@".$channel->channel_id,
             'text' => $text,
         ];
 
