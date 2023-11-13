@@ -27,7 +27,7 @@ Route::group(['prefix' => 'app'], function () {
         Route::delete('/channel/{id}/delete/{message}', [ChannelController::class, 'delete']);
         Route::post('/channel/{id}/restore/{message}', [MessageController::class, 'sendMessage'])->name('restore message');
         Route::post('/channel/{id}/send', [MessageController::class, 'send']);
-        Route::post('/message/{message}/channel/{id}', [MessageController::class, 'sendMessage']);
         Route::post('/message/sendmessage/channel/{id}', [ChannelController::class, 'sendMessage'])->name('send_to_channel');
+        Route::post('/message/{message}/channel/{id}', [MessageController::class, 'sendMessage']);
     });
 });
