@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class ChannelController extends Controller
@@ -125,7 +126,69 @@ class ChannelController extends Controller
         }
     }
 
-    public function restore($id, $message){
+    public function sendMessage(Request $request, $id)
+    {
+        $channelId = $id;
+        $channel = Channel::find($channelId);
+        $channelId = $channel->chat_id;
+        $text = $request->input('message');
 
+        $params = [
+            'chat_id' => $channelId,
+            'text' => $text,
+        ];
+
+        // Check if an attachment (image, video, file) is present
+        if ($request->hasFile('attachment')) {
+            $attachmentPath = $this->uploadAttachment($request->file('attachment'));
+
+            // Determine the type of attachment based on its extension
+            $attachmentType = $this->getAttachmentType($attachmentPath);
+
+            // Use the appropriate method based on the attachment type
+            switch ($attachmentType) {
+                case 'image':
+                    $params['photo'] = InputFile::create($attachmentPath);
+                    Telegram::sendPhoto($params);
+                    break;
+                case 'video':
+                    $params['document'] = InputFile::create($attachmentPath);
+                    Telegram::sendDocument($params);
+                    break;
+                default:
+                    // Handle other attachment types as needed
+                    break;
+            }
+        } else {
+            // If no attachment, send only text
+            Telegram::sendMessage($params);
+        }
+
+        // Handle success or failure and redirect as needed
+        return redirect()->route('your_redirect_route');
+    }
+
+    private function uploadAttachment($file)
+    {
+        // Logic to upload the attachment and return its path
+        // You can use Laravel's Storage facade or other methods to store the file
+        // Ensure proper security measures (e.g., file validation, storage configuration)
+        return $file->storeAs('attachments', $file->getClientOriginalName());
+    }
+
+    private function getAttachmentType($path)
+    {
+        // Determine the type of attachment based on its extension
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        // Add more supported types as needed
+        if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            return 'image';
+        } elseif ($extension === 'mp4') {
+            return 'video';
+        } else {
+            // Handle other types or return 'file' as a fallback
+            return 'file';
+        }
     }
 }
