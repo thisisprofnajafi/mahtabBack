@@ -105,14 +105,14 @@
                                                     <div class="chat-message-wrapper flex-grow-1">
                                                         <div class="chat-message-text">
                                                             @if($message->type == "text")
-                                                                <p>{{$message->text}}</p>
+                                                                <span>{{$message->text}}</span>
                                                             @endif
                                                         </div>
                                                         <div class="d-flex justify-content-between mt-2">
                                                             <div class="text-muted mt-1">
-                                                                <small>10:02 AM</small>
+                                                                <small>{{$comment->created_at->diffForHumans(null, true)}}</small>
                                                             </div>
-                                                            <div class="forms d-flex g-3">
+                                                            <div class="forms d-flex g-3 my-1">
                                                                 <i class="ti ti-trash"
                                                                    onclick="deleteMessage({{$message->id}} , {{$channel->id}})"></i>
                                                                 <i class="ti ti-refresh"
