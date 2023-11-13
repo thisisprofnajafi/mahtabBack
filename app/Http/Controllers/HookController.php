@@ -60,4 +60,12 @@ class HookController extends Controller
     }
 }
 
+    public function getUpdates()
+    {
+        $response = Telegram::getUpdates();
+        $updates = json_decode($response, true);
+
+        return $updates;
+    }
+
 }

@@ -111,7 +111,7 @@
                                                             <div class="text-muted mt-1">
                                                                 <small>10:02 AM</small>
                                                             </div>
-                                                            <div class="forms d-flex g-1">
+                                                            <div class="forms d-flex g-3">
                                                                 <i class="ti ti-trash"
                                                                    onclick="deleteMessage({{$message->id}} , {{$channel->id}})"></i>
                                                                 <i class="ti ti-refresh"
