@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
                                     <div class="chat-history-body bg-body">
-                                        <ul class="list-unstyled chat-history">
+                                        <ul class="list-unstyled  chat-history">
                                             @foreach($messages as $message)
                                                 <li class="chat-message">
                                                     <div class="d-flex overflow-hidden">
