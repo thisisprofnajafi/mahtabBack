@@ -10,9 +10,9 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class MessageController extends Controller
 {
-    public function sendMessage($id,$message)
+    public function sendMessage($id, $message)
     {
-        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "message: ".$message . " channel:" .$id]);
+        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "message: " . $message . " channel:" . $id]);
         $channelId = $id;
         $messageId = $message;
         $channel = Channel::find($channelId);
@@ -45,7 +45,7 @@ class MessageController extends Controller
             if ($response->animation) {
                 $channel->saveGif($response);
             } else {
-                $channel->saveDoc($response);
+                $channel->saveDocument($response);
             }
         }
         if ($response->sticker) {
@@ -70,10 +70,10 @@ class MessageController extends Controller
     private function sendTelegramMessage($channel, $message)
     {
         $params = [
-            'chat_id' => '@'.$channel->channel_id,
+            'chat_id' => '@' . $channel->channel_id,
             'caption' => $message->caption,
         ];
-        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "chat id: ".$channel->chat_id . " channel id: " .$channel->channel_id]);
+        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "chat id: " . $channel->chat_id . " channel id: " . $channel->channel_id]);
 
 
         switch ($message->type) {
@@ -105,7 +105,7 @@ class MessageController extends Controller
                 return Telegram::sendVoice($params);
 
             case "sticker":
-                $params['sticker'] = InputFile::create($message->path);
+                $params['sticker'] = InputFile::create($this->stickerCleaner($message->path));
 
                 return Telegram::sendSticker($params);
 
@@ -183,6 +183,25 @@ class MessageController extends Controller
                 "status" => true,
                 "message" => "Message Sent"
             ]);
+        }
+    }
+
+
+    public function stickerCleaner($path)
+    {
+
+        $pattern = '/\/([^\/]+)\.webm$/';
+
+        if (preg_match($pattern, $path, $matches)) {
+            // $matches[0] contains the entire matched string
+            // $matches[1] contains the desired portion
+            $result = $matches[1];
+
+            // Output the result
+            return $result;
+        } else {
+            // No match found
+            echo "No match found";
         }
     }
 }
