@@ -107,7 +107,7 @@ class ChannelController extends Controller
 
         try {
             Telegram::deleteMessage([
-                'chat_id' => $channel->chat_id,
+                'chat_id' => '@' . $channel->channel_id,
                 'message_id' => $message->message_id,
             ]);
 
