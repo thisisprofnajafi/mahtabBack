@@ -105,9 +105,27 @@
                                                     <div class="chat-message-wrapper flex-grow-1">
                                                         <div class="chat-message-text">
                                                             @if($message->type == "text")
-                                                                <span>{{$message->text}}</span>
+                                                                <span>{{ $message->text }}</span>
+                                                            @elseif($message->type == "photo")
+                                                                <img src="{{ asset($message->path) }}" alt="Photo">
+                                                                @if($message->caption)
+                                                                    <span>{{ $message->caption }}</span>
+                                                                @endif
+                                                            @elseif($message->type == "doc" || $message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice")
+                                                                <a href="{{ asset($message->path) }}" target="_blank" rel="noopener noreferrer">
+                                                                    {{ ucfirst($message->type) }}
+                                                                </a>
+                                                                @if($message->caption)
+                                                                    <span>{{ $message->caption }}</span>
+                                                                @endif
+                                                            @elseif($message->type == "sticker")
+                                                                <img src="{{ asset($message->path) }}" alt="Sticker">
+                                                                @if($message->caption)
+                                                                    <span>{{ $message->caption }}</span>
+                                                                @endif
                                                             @endif
                                                         </div>
+
                                                         <div class="d-flex justify-content-between mt-2">
                                                             <div class="text-muted mt-1 mx-1">
                                                                 <small>{{$message->created_at->diffForHumans(null, true)}} ago</small>
