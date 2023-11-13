@@ -48,7 +48,7 @@ class HookController extends Controller
                                 }else{
                                     $channel->$methodName($channel_post);
                                 }
-                                Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A " . $type . " saved"]);
+                                Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A " . $type . "  saved"]);
                             }
                         }
                         if (empty($mediaTypes)) {
