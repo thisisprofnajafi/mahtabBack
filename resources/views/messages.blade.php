@@ -81,7 +81,7 @@
 
                                                 <div class="flex-shrink-0 avatar">
                                                     <img
-                                                        src="../../assets/img/avatars/2.png"
+                                                        src="{{'https://avindev.com/mahtab/public/'.$channel->profile_path}}"
                                                         alt="Avatar"
                                                         class="rounded-circle"
                                                         data-bs-toggle="sidebar"
@@ -90,8 +90,8 @@
                                                     />
                                                 </div>
                                                 <div class="chat-contact-info flex-grow-1 ms-2">
-                                                    <h6 class="m-0">Felecia Rower</h6>
-                                                    <small class="user-status text-muted">NextJS developer</small>
+                                                    <h6 class="m-0">{{$channel->title}}</h6>
+                                                    <small class="user-status text-muted">{{$channel->members_count}}</small>
                                                 </div>
                                             </div>
 
@@ -113,9 +113,9 @@
                                                             </div>
                                                             <div class="forms d-flex g-1">
                                                                 <i class="ti ti-trash"
-                                                                   onclick="deleteMessage({{$messaege->id}} , {{$channel->id}})"></i>
+                                                                   onclick="deleteMessage({{$message->id}} , {{$channel->id}})"></i>
                                                                 <i class="ti ti-refresh"
-                                                                   onclick="refreshPage({{$messaege->id}} , {{$channel->id}})"></i>
+                                                                   onclick="refreshPage({{$message->id}} , {{$channel->id}})"></i>
                                                             </div>
                                                         </div>
                                                     </div>

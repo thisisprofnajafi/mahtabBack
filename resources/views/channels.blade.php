@@ -84,17 +84,17 @@
                                     @foreach($channels as $channel)
                                     <li class="chat-contact-list-item">
                                         <a href="{{route('channel page',['id'=>$channel->id])}}" class="d-flex align-items-center">
-                                            <div class="flex-shrink-0 avatar avatar-online">
+                                            <div class="flex-shrink-0 avatar">
                                                 <img src="{{'https://avindev.com/mahtab/public/'.$channel->profile_path}}" alt="Avatar"
                                                      class="rounded-circle"/>
                                             </div>
                                             <div class="chat-contact-info flex-grow-1 ms-2">
                                                 <h6 class="chat-contact-name text-truncate m-0">{{$channel->title}}</h6>
                                                 <p class="chat-contact-status text-muted text-truncate mb-0">
-                                                    {{$channel->members_count}}
+                                                    <i class="ti ti-users"></i> {{$channel->members_count}}
                                                 </p>
                                             </div>
-                                            <small class="text-muted mb-auto">{{count($channel->messages)}}</small>
+                                            <small class="text-muted mb-auto">{{count($channel->messages)}} <i class="ti ti-message"></i></small>
                                         </a>
                                     </li>
                                     @endforeach
