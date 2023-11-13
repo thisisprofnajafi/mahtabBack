@@ -49,7 +49,7 @@ class HookController extends Controller
                                     if (isset($channel_post['animation'])) {
                                         $channel->saveGif($channel_post);
                                     } else {
-                                        $channel->saveDoc($channel_post);
+                                        $channel->saveDocument($channel_post);
                                     }
                                 }
                                 Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A " . $type . " saved"]);
