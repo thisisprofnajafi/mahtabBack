@@ -126,62 +126,78 @@ class ChannelController extends Controller
         }
     }
 
-    public function sendMessage($id,Request $request)
+    public function sendMessage($id, Request $request)
     {
         $channelId = $id;
         $channel = Channel::find($channelId);
-        $channelId = $channel->chat_id;
+
+        // Validate other form data if needed
+
         $text = $request->input('message');
 
         $params = [
-            'chat_id' => "@".$channel->channel_id,
+            'chat_id' => "@" . $channel->channel_id,
             'text' => $text,
         ];
 
         // Check if an attachment (image, video, file) is present
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $this->uploadAttachment($request->file('attachment'));
+            // Upload the attachment and get the file info
+            $fileInfo = $this->uploadAttachment($request->file('attachment'));
 
-            // Determine the type of attachment based on its extension
-            $attachmentType = $this->getAttachmentType($attachmentPath);
+            if ($fileInfo) {
+                $attachmentPath = $fileInfo['path'];
+                $attachmentType = $fileInfo['type'];
 
-            // Use the appropriate method based on the attachment type
-            switch ($attachmentType) {
-                case 'image':
-                    $params['photo'] = InputFile::create($attachmentPath);
-                    Telegram::sendPhoto($params);
-                    break;
-                case 'video':
-                    $params['document'] = InputFile::create($attachmentPath);
-                    Telegram::sendDocument($params);
-                    break;
-                default:
-                    // Handle other attachment types as needed
-                    break;
+                switch ($attachmentType) {
+                    case 'image':
+                        $params['photo'] = InputFile::create($attachmentPath);
+                        Telegram::sendPhoto($params);
+                        break;
+                    case 'video':
+                        $params['document'] = InputFile::create($attachmentPath);
+                        Telegram::sendDocument($params);
+                        break;
+                    default:
+                        // Handle other attachment types as needed
+                        break;
+                }
+            } else {
+                // File upload failed
+                return redirect()->back()->with('error', 'File upload failed.');
             }
         } else {
             // If no attachment, send only text
             Telegram::sendMessage($params);
         }
 
-        // Handle success or failure and redirect as needed
         return redirect()->route('your_redirect_route');
     }
 
     private function uploadAttachment($file)
     {
-        // Logic to upload the attachment and return its path
-        // You can use Laravel's Storage facade or other methods to store the file
-        // Ensure proper security measures (e.g., file validation, storage configuration)
-        return $file->storeAs('attachments', $file->getClientOriginalName());
+        // Generate a unique name for the file
+        $fileName = time() . '_' . $file->getClientOriginalName();
+
+        // Specify the destination folder
+        $destinationPath = public_path('attachments');
+
+        // Move the uploaded file to the destination folder
+        $file->move($destinationPath, $fileName);
+
+        // Determine the type of attachment based on its extension
+        $extension = $file->getClientOriginalExtension();
+        $type = $this->getAttachmentType($extension);
+
+        // Return file info
+        return [
+            'path' => 'attachments/' . $fileName,
+            'type' => $type,
+        ];
     }
 
-    private function getAttachmentType($path)
+    private function getAttachmentType($extension)
     {
-        // Determine the type of attachment based on its extension
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-
-        // Add more supported types as needed
         if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
             return 'image';
         } elseif ($extension === 'mp4') {
