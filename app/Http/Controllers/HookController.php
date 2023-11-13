@@ -38,7 +38,7 @@ class HookController extends Controller
                     $channel = Channel::query()->where('chat_id', $channel_post['sender_chat']['id'])->first();
 
                     if ($channel) {
-                        $mediaTypes = ['text', 'photo', 'document', 'sticker', 'video', 'audio', 'voice','sticker'];
+                        $mediaTypes = ['text', 'photo', 'document', 'sticker', 'video', 'audio', 'voice'];
 
                         foreach ($mediaTypes as $type) {
                             if (isset($channel_post[$type])) {
