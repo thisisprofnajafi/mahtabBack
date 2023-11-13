@@ -113,7 +113,7 @@
                                                                     @if($message->caption)
                                                                         <span>{{ $message->caption }}</span>
                                                                     @endif
-                                                                @elseif($message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice")
+                                                                @elseif($message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice" || $message->type == "sticker" || $message->type == "document")
                                                                     @if($message->type == "video")
                                                                         <video controls style="max-width: 100%">
                                                                             <source src="{{ asset($message->path) }}"
@@ -155,12 +155,6 @@
                                                                             {{ ucfirst($message->type) }}
                                                                         </a>
                                                                     @endif
-                                                                    @if($message->caption)
-                                                                        <span>{{ $message->caption }}</span>
-                                                                    @endif
-                                                                @elseif($message->type == "sticker")
-                                                                    <img src="{{ asset($message->path) }}"
-                                                                         alt="Sticker">
                                                                     @if($message->caption)
                                                                         <span>{{ $message->caption }}</span>
                                                                     @endif
