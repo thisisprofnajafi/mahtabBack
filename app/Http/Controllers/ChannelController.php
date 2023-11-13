@@ -96,7 +96,7 @@ class ChannelController extends Controller
             ]);
         }
 
-        $message = $channel->messages->where("message_id", $messageId)->first();
+        $message = $channel->messages->where("id", $messageId)->first();
 
         if (!$message) {
             return response()->json([
