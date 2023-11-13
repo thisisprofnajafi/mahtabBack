@@ -12,7 +12,7 @@ class MessageController extends Controller
 {
     public function sendMessage($id,$message)
     {
-        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "messaege: ".$message . " channel:" .$id]);
+        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "message: ".$message . " channel:" .$id]);
         $channelId = $id;
         $messageId = $message;
         $channel = Channel::find($channelId);
@@ -106,6 +106,7 @@ class MessageController extends Controller
 
             case "sticker":
                 $params['sticker'] = InputFile::create($message->path);
+
                 return Telegram::sendSticker($params);
 
             default:
@@ -169,7 +170,7 @@ class MessageController extends Controller
                 $channel->savePhoto($response);
             }
             if ($response->document) {
-                $channel->saveDoc($response);
+                $channel->saveDocument($response);
             }
             if ($response->video) {
                 $channel->saveVideo($response);
