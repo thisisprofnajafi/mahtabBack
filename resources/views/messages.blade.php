@@ -91,7 +91,8 @@
                                                 </div>
                                                 <div class="chat-contact-info flex-grow-1 ms-2">
                                                     <h6 class="m-0">{{$channel->title}}</h6>
-                                                    <small class="user-status text-muted">{{$channel->members_count}}</small>
+                                                    <small
+                                                        class="user-status text-muted">{{$channel->members_count}}</small>
                                                 </div>
                                             </div>
 
@@ -100,66 +101,87 @@
                                     <div class="chat-history-body bg-body">
                                         <ul class="list-unstyled chat-history">
                                             @foreach($messages as $message)
-                                            <li class="chat-message">
-                                                <div class="d-flex overflow-hidden">
-                                                    <div class="chat-message-wrapper flex-grow-1">
-                                                        <div class="chat-message-text">
-                                                            @if($message->type == "text")
-                                                                <span>{{ $message->text }}</span>
-                                                            @elseif($message->type == "photo")
-                                                                <img src="{{ asset($message->path) }}" alt="Photo" style="max-width: 100%">
-                                                                @if($message->caption)
-                                                                    <span>{{ $message->caption }}</span>
-                                                                @endif
-                                                            @elseif($message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice")
-                                                                @if($message->type == "video")
-                                                                    <video controls style="max-width: 100%">
-                                                                        <source src="{{ asset($message->path) }}" type="video/mp4">
-                                                                        Your browser does not support the video tag.
-                                                                    </video>
-                                                                @elseif($message->type == "audio" || $message->type == "voice")
-                                                                    <audio controls style="max-width: 100%">
-                                                                        <source src="{{ asset($message->path) }}" type="audio/mpeg">
-                                                                        Your browser does not support the audio tag.
-                                                                    </audio>
-                                                                @elseif($message->type == "gif")
+                                                <li class="chat-message">
+                                                    <div class="d-flex overflow-hidden">
+                                                        <div class="chat-message-wrapper flex-grow-1">
+                                                            <div class="chat-message-text">
+                                                                @if($message->type == "text")
+                                                                    <span>{{ $message->text }}</span>
+                                                                @elseif($message->type == "photo")
+                                                                    <img src="{{ asset($message->path) }}" alt="Photo"
+                                                                         style="max-width: 100%">
+                                                                    @if($message->caption)
+                                                                        <span>{{ $message->caption }}</span>
+                                                                    @endif
+                                                                @elseif($message->type == "gif" || $message->type == "video" || $message->type == "audio" || $message->type == "voice")
+                                                                    @if($message->type == "video")
                                                                         <video controls style="max-width: 100%">
-                                                                            <source src="{{ asset($message->path) }}" type="video/mp4">
+                                                                            <source src="{{ asset($message->path) }}"
+                                                                                    type="video/mp4">
                                                                             Your browser does not support the video tag.
                                                                         </video>
-                                                                @elseif($message->type == "document")
-                                                                    <a href="{{asset($message->path)}}" download>Download Document</a>
+                                                                    @elseif($message->type == "audio" || $message->type == "voice")
+                                                                        <audio controls style="max-width: 100%">
+                                                                            <source src="{{ asset($message->path) }}"
+                                                                                    type="audio/mpeg">
+                                                                            Your browser does not support the audio tag.
+                                                                        </audio>
+                                                                    @elseif($message->type == "gif")
+                                                                        <video controls style="max-width: 100%">
+                                                                            <source src="{{ asset($message->path) }}"
+                                                                                    type="video/mp4">
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    @elseif($message->type == "sticker")
+                                                                        @if(pathinfo($message->path, PATHINFO_EXTENSION) == 'mp4')
+                                                                            <video controls style="max-width: 100%">
+                                                                                <source
+                                                                                    src="{{ asset($message->path) }}"
+                                                                                    type="video/mp4">
+                                                                                Your browser does not support the video
+                                                                                tag.
+                                                                            </video>
+                                                                        @else
+                                                                            <img src="{{ asset($message->path) }}"
+                                                                                 alt="Sticker" style="max-width: 100%">
+                                                                        @endif
+                                                                    @elseif($message->type == "document")
+                                                                        <a href="{{asset($message->path)}}" download>Download
+                                                                            Document</a>
 
-                                                                @else
-                                                                    <a href="{{ asset($message->path) }}" target="_blank" rel="noopener noreferrer">
-                                                                        {{ ucfirst($message->type) }}
-                                                                    </a>
+                                                                    @else
+                                                                        <a href="{{ asset($message->path) }}"
+                                                                           target="_blank" rel="noopener noreferrer">
+                                                                            {{ ucfirst($message->type) }}
+                                                                        </a>
+                                                                    @endif
+                                                                    @if($message->caption)
+                                                                        <span>{{ $message->caption }}</span>
+                                                                    @endif
+                                                                @elseif($message->type == "sticker")
+                                                                    <img src="{{ asset($message->path) }}"
+                                                                         alt="Sticker">
+                                                                    @if($message->caption)
+                                                                        <span>{{ $message->caption }}</span>
+                                                                    @endif
                                                                 @endif
-                                                                @if($message->caption)
-                                                                    <span>{{ $message->caption }}</span>
-                                                                @endif
-                                                            @elseif($message->type == "sticker")
-                                                                <img src="{{ asset($message->path) }}" alt="Sticker">
-                                                                @if($message->caption)
-                                                                    <span>{{ $message->caption }}</span>
-                                                                @endif
-                                                            @endif
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-between mt-2">
-                                                            <div class="text-muted mt-1 mx-1">
-                                                                <small>{{$message->created_at->diffForHumans(null, true)}} ago</small>
                                                             </div>
-                                                            <div class="forms d-flex g-3 mx-2">
-                                                                <i class="ti ti-trash"
-                                                                   onclick="deleteMessage({{$message->id}} , {{$channel->id}})"></i>
-                                                                <i class="ti ti-refresh"
-                                                                   onclick="refreshPage({{$message->id}} , {{$channel->id}})"></i>
+
+                                                            <div class="d-flex justify-content-between mt-2">
+                                                                <div class="text-muted mt-1 mx-1">
+                                                                    <small>{{$message->created_at->diffForHumans(null, true)}}
+                                                                        ago</small>
+                                                                </div>
+                                                                <div class="forms d-flex g-3 mx-2">
+                                                                    <i class="ti ti-trash"
+                                                                       onclick="deleteMessage({{$message->id}} , {{$channel->id}})"></i>
+                                                                    <i class="ti ti-refresh"
+                                                                       onclick="refreshPage({{$message->id}} , {{$channel->id}})"></i>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -262,7 +284,7 @@
 
 
 <script>
-    function deleteMessage(messageId,channelId) {
+    function deleteMessage(messageId, channelId) {
         fetch(`/public/api/channel/${channelId}/delete/${messageId}`, {
             method: 'DELETE',
             headers: {
