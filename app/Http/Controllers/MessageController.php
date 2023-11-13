@@ -10,107 +10,109 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class MessageController extends Controller
 {
-    public function sendMessage($message, $id)
+    public function sendMessage($id,$message)
     {
-        $channel = Channel::query()->where("id", $id)->first();
-        if ($channel) {
-            $message = $channel->messages->where("message_id", $message)->first();
-            if ($message) {
-                if ($message->type == "text") {
-                    $response = Telegram::sendMessage([
-                        'chat_id' => $channel->chat_id,
-                        'text' => $message->text,
-                    ]);
-                }
-                if ($message->type == "photo") {
-                    $response = Telegram::sendPhoto([
-                        'chat_id' => $channel->chat_id,
-                        'photo' => InputFile::create($message->path),
-                        'caption' => $message->caption,
-                    ]);
-                }
-                if ($message->type == "doc" || $message->type == "gif") {
-                    $response = Telegram::sendDocument([
-                        'chat_id' => $channel->chat_id,
-                        'document' => InputFile::create($message->path),
-                        'caption' => $message->caption,
-                    ]);
-                }
-                if ($message->type == "video") {
-                    $response = Telegram::sendVideo([
-                        'chat_id' => $channel->chat_id,
-                        'video' => InputFile::create($message->path),
-                        'caption' => $message->caption,
-                    ]);
-                }
-                if ($message->type == "audio") {
-                    $response = Telegram::sendAudio([
-                        'chat_id' => $channel->chat_id,
-                        'audio' => InputFile::create($message->path),
-                        'caption' => $message->caption,
-                    ]);
-                }
-                if ($message->type == "voice") {
-                    $response = Telegram::sendVoice([
-                        'chat_id' => $channel->chat_id,
-                        'voice' => InputFile::create($message->path),
-                        'caption' => $message->caption,
-                    ]);
-                }
-                if ($message->type == "sticker") {
-                    $response = Telegram::sendSticker([
-                        'chat_id' => $channel->chat_id,
-                        'sticker' => InputFile::create($message->path),
-                        'caption' => $message->caption,
-                    ]);
-                }
+        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "messaege: ".$message . " channel:" .$id]);
+        $channelId = $id;
+        $messageId = $message;
+        $channel = Channel::find($channelId);
 
-                if ($response->text) {
-                    $channel->saveText($response);
-                }
-                if ($response->photo) {
-                    $channel->savePhoto($response);
-                }
-                if ($response->document) {
+        if (!$channel) {
+            return response()->json([
+                "status" => false,
+                "message" => "Channel Not Found"
+            ]);
+        }
 
-                    if ($response->animation)
-                        $channel->saveGif($response);
-                    else
-                        $channel->saveDoc($response);
-                }
+        $message = $channel->messages->where("id", $messageId)->first();
 
-                if ($response->sticker) {
-                    $channel->saveSticker($response);
-                }
+        if (!$message) {
+            return response()->json([
+                "status" => false,
+                "message" => "Message Not Found"
+            ]);
+        }
 
-                if ($response->video) {
-                    $channel->saveVideo($response);
-                }
+        $response = $this->sendTelegramMessage($channel, $message);
 
-                if ($response->audio) {
-                    $channel->saveAudio($response);
-                }
-
-                if ($response->voice) {
-                    $channel->saveVoice($response);
-                }
-
-                return response()->json([
-                    "status" => true,
-                    "message" => "Message Sent"
-                ]);
+        if ($response->text) {
+            $channel->saveText($response);
+        }
+        if ($response->photo) {
+            $channel->savePhoto($response);
+        }
+        if ($response->document) {
+            if ($response->animation) {
+                $channel->saveGif($response);
             } else {
-                return response()->json([
-                    "status" => false,
-                    "message" => "Message Not Found"
-                ]);
+                $channel->saveDoc($response);
             }
         }
+        if ($response->sticker) {
+            $channel->saveSticker($response);
+        }
+        if ($response->video) {
+            $channel->saveVideo($response);
+        }
+        if ($response->audio) {
+            $channel->saveAudio($response);
+        }
+        if ($response->voice) {
+            $channel->saveVoice($response);
+        }
+
         return response()->json([
-            "status" => false,
-            "message" => "Channel Not Found"
+            "status" => true,
+            "message" => "Message Sent"
         ]);
     }
+
+    private function sendTelegramMessage($channel, $message)
+    {
+        $params = [
+            'chat_id' => '@'.$channel->channel_id,
+            'caption' => $message->caption,
+        ];
+        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "chat id: ".$channel->chat_id . " channel id: " .$channel->channel_id]);
+
+
+        switch ($message->type) {
+            case "text":
+                $params['text'] = $message->text;
+                return Telegram::sendMessage($params);
+
+            case "photo":
+                $params['photo'] = InputFile::create($message->path);
+                return Telegram::sendPhoto($params);
+
+            case "doc":
+                $params['document'] = InputFile::create($message->path);
+                return Telegram::sendDocument($params);
+            case "gif":
+                $params['document'] = InputFile::create($message->path);
+                return Telegram::sendGif($params);
+
+            case "video":
+                $params['video'] = InputFile::create($message->path);
+                return Telegram::sendVideo($params);
+
+            case "audio":
+                $params['audio'] = InputFile::create($message->path);
+                return Telegram::sendAudio($params);
+
+            case "voice":
+                $params['voice'] = InputFile::create($message->path);
+                return Telegram::sendVoice($params);
+
+            case "sticker":
+                $params['sticker'] = InputFile::create($message->path);
+                return Telegram::sendSticker($params);
+
+            default:
+                return null;
+        }
+    }
+
 
     public function send($id, Request $request)
     {
@@ -167,7 +169,7 @@ class MessageController extends Controller
                 $channel->savePhoto($response);
             }
             if ($response->document) {
-                    $channel->saveDoc($response);
+                $channel->saveDoc($response);
             }
             if ($response->video) {
                 $channel->saveVideo($response);
