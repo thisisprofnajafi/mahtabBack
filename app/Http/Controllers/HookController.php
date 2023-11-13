@@ -25,7 +25,7 @@ class HookController extends Controller
             $channel_post = $update['channel_post'];
 
             if (isset($channel_post['sender_chat']['type']) && $channel_post['sender_chat']['type'] == "channel") {
-                $channel = Channel::query()->where('channel_id', $channel_post['sender_chat']['username'])->first();
+                $channel = Channel::query()->where('chat_id', $channel_post['sender_chat']['id'])->first();
                 if ($channel) {
                     if (isset($channel_post['text'])) {
                         $channel->saveText($channel_post);
