@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\MessageLog;
 use Exception;
 use App\Models\Channel;
@@ -11,7 +12,7 @@ class HookController extends Controller
 {
     public function getMessage(Request $request)
     {
-        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "new hook call"]);
+        Telegram::sendMessage(['chat_id' => 454775346, 'text' => "new hook call " . $request->getContent()]);
 
         try {
             $update = json_decode($request->getContent(), true);
@@ -33,56 +34,17 @@ class HookController extends Controller
                     $channel = Channel::query()->where('chat_id', $channel_post['sender_chat']['id'])->first();
 
                     if ($channel) {
-                        // Handle text message
-                        if (isset($channel_post['text'])) {
-                            $channel->saveText($channel_post);
-                            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A text saved"]);
-                        }
+                        $mediaTypes = ['text', 'photo', 'document', 'sticker', 'video', 'audio', 'voice'];
 
-                        // Handle photo message
-                        if (isset($channel_post['photo'])) {
-                            $channel->savePhoto($channel_post);
-                            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A photo saved"]);
-                        }
-
-                        // Handle document and animation (gif) messages
-                        if (isset($channel_post['document'])) {
-                            if (isset($channel_post['animation'])) {
-                                $channel->saveGif($channel_post);
-                                Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A gif saved"]);
-                            } else {
-                                $channel->saveDoc($channel_post);
-                                Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A doc saved"]);
+                        foreach ($mediaTypes as $type) {
+                            if (isset($channel_post[$type])) {
+                                $methodName = 'save' . ucfirst($type);
+                                $channel->$methodName($channel_post);
+                                Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A " . $type . " saved"]);
                             }
                         }
 
-                        // Handle sticker message
-                        if (isset($channel_post['sticker'])) {
-                            $channel->saveSticker($channel_post);
-                            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A sticker saved"]);
-                        }
-
-                        // Handle video message
-                        if (isset($channel_post['video'])) {
-                            $channel->saveVideo($channel_post);
-                            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A video saved"]);
-                        }
-
-                        // Handle audio message
-                        if (isset($channel_post['audio'])) {
-                            $channel->saveAudio($channel_post);
-                            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "An Audio saved"]);
-                        }
-
-                        // Handle voice message
-                        if (isset($channel_post['voice'])) {
-                            $channel->saveVoice($channel_post);
-                            Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A Voice saved"]);
-                        }
-
-                        // If none of the media types match
-                        if (!isset($channel_post['text']) && !isset($channel_post['photo']) && !isset($channel_post['document']) &&
-                            !isset($channel_post['sticker']) && !isset($channel_post['video']) && !isset($channel_post['audio']) && !isset($channel_post['voice'])) {
+                        if (empty($mediaTypes)) {
                             Telegram::sendMessage(['chat_id' => 454775346, 'text' => "No media type detected"]);
                         }
                     } else {
@@ -100,5 +62,4 @@ class HookController extends Controller
             Telegram::sendMessage(['chat_id' => 454775346, 'text' => "An error occurred " . $e->getMessage()]);
         }
     }
-
 }
