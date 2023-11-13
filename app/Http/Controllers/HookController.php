@@ -10,11 +10,6 @@ class HookController extends Controller
 {
    public function getMessage(Request $request)
 {
-    Telegram::sendMessage([
-        'chat_id' => 454775346,
-        'text' => "request " . $request->getContent(),
-    ]);
-
     try {
         $update = json_decode($request->getContent(), true);
         if (isset($update['channel_post'])) {
@@ -49,6 +44,11 @@ class HookController extends Controller
                         $channel->saveVoice($channel_post);
                     }
                 }
+            }else{
+                Telegram::sendMessage([
+                    'chat_id' => 454775346,
+                    'text' => "did not detect",
+                ]);
             }
         }
     } catch (Exception $e) {
