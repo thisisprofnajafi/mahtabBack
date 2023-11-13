@@ -38,7 +38,7 @@ class HookController extends Controller
                     $channel = Channel::query()->where('chat_id', $channel_post['sender_chat']['id'])->first();
 
                     if ($channel) {
-                        $mediaTypes = ['text', 'photo', 'document', 'sticker', 'video', 'audio', 'voice'];
+                        $mediaTypes = ['text', 'photo', 'document', 'sticker', 'video', 'audio', 'voice','sticker'];
 
                         foreach ($mediaTypes as $type) {
                             if (isset($channel_post[$type])) {
@@ -51,7 +51,6 @@ class HookController extends Controller
                                 Telegram::sendMessage(['chat_id' => 454775346, 'text' => "A " . $type . " saved"]);
                             }
                         }
-
                         if (empty($mediaTypes)) {
                             Telegram::sendMessage(['chat_id' => 454775346, 'text' => "No media type detected"]);
                         }

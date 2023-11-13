@@ -88,7 +88,7 @@ class Channel extends Model
                         break;
                     case 'gif':
                     case 'sticker':
-                        $fileId = $post['document']['file_id'];
+                        $fileId = $post['sticker']['file_id'];
                         break;
                 }
 
@@ -109,6 +109,7 @@ class Channel extends Model
     {
         $this->saveMessage($post, 'photo');
     }
+
 
     public function saveDocument($post)
     {
