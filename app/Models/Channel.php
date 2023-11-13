@@ -62,7 +62,7 @@ class Channel extends Model
         $message->type = "photo";
 
         $message->path = $this->downloadGetFile($post->photo[count(json_decode($post['photo']))-1]['file_id']);
-        if ($post->caption)
+        if ($post['caption'])
             $message->caption = $post['caption'];
 
         $this->messages()->save($message);
@@ -75,8 +75,8 @@ class Channel extends Model
         $message->type = "doc";
 
         $message->path = $this->downloadGetFile($post->document->file_id);
-        if ($post->caption)
-            $message->caption = $post->caption;
+        if ($post['caption'])
+            $message->caption = $post['caption'];
 
         $this->messages()->save($message);
 
@@ -87,9 +87,9 @@ class Channel extends Model
         $message = new Message();
         $message->type = "video";
         $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post->video->file_id);
-        if ($post->caption)
-            $message->caption = $post->caption;
+        $message->path = $this->downloadGetFile($post['video']['file_id']);
+        if ($post['caption'])
+            $message->caption = $post['caption'];
 
         $this->messages()->save($message);
 
@@ -100,9 +100,9 @@ class Channel extends Model
         $message = new Message();
         $message->type = "audio";
         $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post->audio->file_id);
-        if ($post->caption)
-            $message->caption = $post->caption;
+        $message->path = $this->downloadGetFile($post['audio']['file_id']);
+        if ($post['caption'])
+            $message->caption = $post['caption'];
         $this->messages()->save($message);
 
     }
@@ -112,9 +112,9 @@ class Channel extends Model
         $message = new Message();
         $message->type = "voice";
         $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post->voice->file_id);
-        if ($post->caption)
-            $message->caption = $post->caption;
+        $message->path = $this->downloadGetFile($post['voice']['file_id']);
+        if ($post['caption'])
+            $message->caption = $post['caption'];
         $this->messages()->save($message);
 
     }
@@ -123,21 +123,21 @@ class Channel extends Model
         $message = new Message();
         $message->type = "gif";
         $message->message_id = $post['message_id'];
-        $message->path = $this->downloadGetFile($post->document->file_id);
-        if ($post->caption)
-            $message->caption = $post->caption;
+        $message->path = $this->downloadGetFile($post['document']['file_id']);
+        if ($post['caption'])
+            $message->caption = $post['caption'];
         $this->messages()->save($message);
     }
     public function saveSticker($post){
         $message = new Message();
         $message->type = "sticker";
         $message->message_id = $post['message_id'];
-        if($post->is_video)
-            $message->path = $this->downloadGetFile($post->sticker->file_id);
+        if($post['is_video'])
+            $message->path = $this->downloadGetFile($post['sticker']['file_id']);
         else
-            $message->path = $this->downloadGetFile($post->sticker->file_id);
-        if ($post->caption)
-            $message->caption = $post->caption;
+            $message->path = $this->downloadGetFile($post['sticker']['file_id']);
+        if ($post['caption'])
+            $message->caption = $post['caption'];
         $this->messages()->save($message);
     }
 
@@ -147,6 +147,6 @@ class Channel extends Model
         $profilePhotoUrl = 'https://api.telegram.org/file/bot' . env('TELEGRAM_BOT_TOKEN') . '/' . $profilePhotoFile->getFilePath();
         $localFilePath = public_path('media/messages/' .$param. '.'.explode('.',$profilePhotoFile->getFilePath())[1]);
         file_put_contents($localFilePath, file_get_contents($profilePhotoUrl));
-        return $localFilePath;
+        return 'media/messages/' .$param. '.'.explode('.',$profilePhotoFile->getFilePath())[1];
     }
 }
