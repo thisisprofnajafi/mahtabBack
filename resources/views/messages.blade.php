@@ -101,7 +101,7 @@
                                     <div class="chat-history-body bg-body">
                                         <ul class="list-unstyled  chat-history">
                                             @foreach($messages as $message)
-                                                <li class="chat-message">
+                                                <li class="chat-message {{'message-mahtab-'.$message->id}}">
                                                     <div class="d-flex overflow-hidden">
                                                         <div class="chat-message-wrapper flex-grow-1">
                                                             <div class="chat-message-text">
@@ -285,15 +285,19 @@
             .then(data => {
                 if (data.status) {
                     console.log(data.message); // Show a success message
-                    // Optionally update the UI to reflect the deleted message, e.g., remove the message element
-                    // document.getElementById(`message-${messageId}`).remove();
-                    refreshPage(); // Optionally refresh the page after deletion
+
+                    // Dynamically create and append an alert element
+                    const alertElement = document.createElement('div');
+                    alertElement.classList.add('alert', 'alert-success', 'mt-2');
+                    alertElement.innerText = 'Deleted!';
+                    document.querySelector(`message-mahtab-${messageId}`).appendChild(alertElement);
                 } else {
                     alert(data.message); // Show an error message
                 }
             })
             .catch(error => console.error('Error:', error));
     }
+
 
 
     function restoreMessage(messageId, channelId) {
