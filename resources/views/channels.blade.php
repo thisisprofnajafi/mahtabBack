@@ -83,7 +83,7 @@
                                     @if(count($channels) > 0)
                                     @foreach($channels as $channel)
                                     <li class="chat-contact-list-item">
-                                        <a href="{{route('channel message',['id'=>$channel->id])}}" class="d-flex align-items-center">
+                                        <a href="{{route('channel page',['id'=>$channel->id])}}" class="d-flex align-items-center">
                                             <div class="flex-shrink-0 avatar avatar-online">
                                                 <img src="../../assets/img/avatars/13.png" alt="Avatar"
                                                      class="rounded-circle"/>
