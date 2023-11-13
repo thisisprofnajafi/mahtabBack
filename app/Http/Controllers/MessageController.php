@@ -90,7 +90,7 @@ class MessageController extends Controller
                 return Telegram::sendDocument($params);
             case "gif":
                 $params['document'] = InputFile::create($message->path);
-                return Telegram::sendGif($params);
+                return Telegram::sendAnimation($params);
 
             case "video":
                 $params['video'] = InputFile::create($message->path);
