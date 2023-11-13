@@ -74,6 +74,7 @@ class Channel extends Model
                     case 'photo':
                         $fileId = $post['photo'][count($post['photo']) - 1]['file_id'];
                         break;
+                    case 'gif':
                     case 'document':
                         $fileId = $post['document']['file_id'];
                         break;
@@ -86,7 +87,6 @@ class Channel extends Model
                     case 'voice':
                         $fileId = $post['voice']['file_id'];
                         break;
-                    case 'gif':
                     case 'sticker':
                         $fileId = $post['sticker']['file_id'];
                         break;
