@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/webhook/telegram',[HookController::class , 'getMessage']);
-Route::get('/webhook/updates',[HookController::class , 'getUpdates']);
 
 Route::get('/', function (){
     return redirect(route('login page'));

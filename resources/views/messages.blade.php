@@ -104,8 +104,9 @@
                                                 <div class="d-flex overflow-hidden">
                                                     <div class="chat-message-wrapper flex-grow-1">
                                                         <div class="chat-message-text">
-                                                            <p class="mb-0">Hey John, I am looking for the best admin
-                                                                template.</p>
+                                                            @if($message->type == "text")
+                                                                <p>{{$message->text}}</p>
+                                                            @endif
                                                         </div>
                                                         <div class="d-flex justify-content-between mt-2">
                                                             <div class="text-muted mt-1">
