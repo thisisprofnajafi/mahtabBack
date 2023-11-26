@@ -22,26 +22,30 @@ class Controller extends BaseController
 
     public function login(Request $request)
     {
+        $credentials = $request->only('email', 'password');
 
-        $request->validate([
-            'email' => 'required'
-        ]);
-
-        $user = User::query()->where('email', $request->email)->first();
+        // Check if the user exists
+        $user = User::where('email', $credentials['email'])->first();
 
         if (!$user) {
-            $user = new User();
-            $user->email = $request->email;
+            // If the user doesn't exist, create a new user
+            $user = new User;
+            $user->email = $credentials['email'];
+            $user->password = bcrypt($credentials['password']);
             $user->save();
+        } else {
+            // If the user exists, check if the password is correct
+            if (!Hash::check($credentials['password'], $user->password)) {
+                // Password is incorrect
+                return redirect()->back()->with('error', 'Invalid credentials');
+            }
         }
 
-        $code = rand(1000, 9999);
-        $user->code = Hash::make($code);
-        $user->code_expire = Carbon::now()->addMinutes(10);
-        $user->save();
-            Mail::to($user->email)->send(new UserSendCodeEmail($code,$user->email));
-        return redirect(route('code page',['email'=>$request->email]));
+        // Log the user in
+        auth()->login($user);
 
+        // Redirect to the desired page after login
+        return redirect()->route('index');
     }
 
     public function checkCode(Request $request)
@@ -70,6 +74,11 @@ class Controller extends BaseController
         return redirect(route('index'));
     }
     public function loginPage(){
+
+        if (Auth::check()){
+            return redirect()->route('index');
+        }
+
         return view('login');
     }
 

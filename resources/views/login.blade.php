@@ -78,7 +78,7 @@
                     <h4 class="mb-1 pt-2">Welcome to MahtabGram! 👋</h4>
                     <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-                    <form id="formAuthentication" class="mb-3" action="{{route('login')}}" method="POST">
+                    <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -89,6 +89,16 @@
                                 name="email"
                                 placeholder="Enter your email or username"
                                 autofocus
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
                             />
                         </div>
                         <div class="mb-3">
